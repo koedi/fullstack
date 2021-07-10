@@ -40,8 +40,15 @@ const Button = ({name, count, setValue}) => {
 
 const Statistics = ({ good, neutral, bad }) => {
   const sum = good + neutral + bad
+  if (sum === 0) {
+    return (
+      <div>
+        <h1>Statistics</h1>
+        <p>No feedback given</p>
+      </div>
+    )
+  }
   return (
-    
     <div>
       <h1>Statistics</h1>
       <p>
@@ -49,8 +56,8 @@ const Statistics = ({ good, neutral, bad }) => {
         neutral {neutral} <br />
         bad {bad} <br />
         all {sum} <br />
-        average  {(1*good + 0*neutral + -1*bad)/sum} <br />
-        positive {(good/sum)} %
+        average  {(1 * good + 0 * neutral + -1 * bad) / sum} <br />
+        positive {(good / sum)} %
       </p>
     </div>
   )
