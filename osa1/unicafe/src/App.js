@@ -52,18 +52,24 @@ const Statistics = ({ good, neutral, bad }) => {
     <div>
       <h1>Statistics</h1>
       <p>
-        good {good} <br />
-        neutral {neutral} <br />
-        bad {bad} <br />
-        all {sum} <br />
-        average  {(1 * good + 0 * neutral + -1 * bad) / sum} <br />
-        positive {(good / sum)} %
+        <StatisticsLine text="good" value={good} />
+        <StatisticsLine text="neutral" value={neutral} />
+        <StatisticsLine text="bad" value={bad} />
+        <StatisticsLine text="all" value={sum} />
+        <StatisticsLine text="average" value={(1 * good + 0 * neutral + -1 * bad) / sum} />
+        <StatisticsLine text="positive" value={(good / sum)*100} sign="%"/>
       </p>
     </div>
   )
 }
 
-
+const StatisticsLine = ({text, value, sign}) => {
+  return (
+    <div>
+      {text} {value} {sign}<br/>
+    </div>
+  )
+}
 
 
 export default App;
