@@ -39,13 +39,18 @@ const Button = ({name, count, setValue}) => {
 }
 
 const Statistics = ({ good, neutral, bad }) => {
+  const sum = good + neutral + bad
   return (
+    
     <div>
       <h1>Statistics</h1>
       <p>
-        good {good}<br />
-        neutral {neutral}<br />
-        bad {bad}
+        good {good} <br />
+        neutral {neutral} <br />
+        bad {bad} <br />
+        all {sum} <br />
+        average  {(1*good + 0*neutral + -1*bad)/sum} <br />
+        positive {(good/sum)} %
       </p>
     </div>
   )
