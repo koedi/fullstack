@@ -13,28 +13,41 @@ const App = () => {
   ]
    
   const [selected, setSelected] = useState(0)
-
   const [votes, setVotes] = useState(new Array(anecdotes.length).fill(0))
+  const [mostVotes, setMostVotes] = useState(0)
 
   const addVote = () => {
     const copy = [...votes]
     copy[selected] += 1
     setVotes(copy)
+    updateMostVotes()
   }
   
   const getNewAnecdote = () => {
     setSelected(Math.floor(Math.random() * anecdotes.length))
   }
 
+  const updateMostVotes = () => {
+    const idx = votes.indexOf(Math.max(...votes))
+    setMostVotes(idx)
+  }
+
   return (
     <div>
-      <p>
+        <h1>Päivän kasku</h1>
+        <p>
         {anecdotes[selected]} <br />
-        has {votes[selected]} votes       <br />
+        has {votes[selected]} votes. <br />
 
         <Button action={addVote} text="Anna +1" />
         <Button action={getNewAnecdote} text="Uusi kasku" />
-      </p>
+        </p>
+
+        <h1>Eniten ääniä saanut kasku</h1>
+        <p>
+        {anecdotes[mostVotes]} <br />
+        has {votes[mostVotes]} votes.
+        </p>
     </div>
   )
 }
