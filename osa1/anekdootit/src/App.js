@@ -14,27 +14,34 @@ const App = () => {
    
   const [selected, setSelected] = useState(0)
 
+  const [votes, setVotes] = useState(new Array(anecdotes.length).fill(0))
+
+  const addVote = () => {
+    const copy = [...votes]
+    copy[selected] += 1
+    setVotes(copy)
+  }
+  
+  const getNewAnecdote = () => {
+    setSelected(Math.floor(Math.random() * anecdotes.length))
+  }
 
   return (
     <div>
-      <Button anecdotes={anecdotes} setSelected={setSelected} />
-      <Kasku anecdotes={anecdotes} selected={selected} />
-      
+      <p>
+        {anecdotes[selected]} <br />
+        has {votes[selected]} votes       <br />
+
+        <Button action={addVote} text="Anna +1" />
+        <Button action={getNewAnecdote} text="Uusi kasku" />
+      </p>
     </div>
   )
 }
 
-const Button = ({anecdotes, setSelected}) => {
+const Button = ({action, text}) => {
   return (
-    <button onClick={() => setSelected(Math.floor(Math.random() * anecdotes.length))}>Uusi kasku</button>
-  )
-}
-
-const Kasku = ({anecdotes, selected}) => {
-  return(
-    <p>
-      {anecdotes[selected]}
-    </p>
+    <button onClick={action}>{text}</button>
   )
 }
 
