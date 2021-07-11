@@ -48,7 +48,7 @@ const Header = ({ name }) => {
 const Content = ({ course }) => {
   return (
     <div>
-    { course.parts.map(p => <Part part={p} />) }
+    { course.parts.map(p => <Part key={p.id} part={p} />) }
     </div>
   )
 }
