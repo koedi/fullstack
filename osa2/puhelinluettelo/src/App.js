@@ -15,7 +15,8 @@ const App = () => {
         event.preventDefault()
         const personObject = {
             name: newName,
-            number: newNumber
+            number: newNumber,
+            show: true
         }
 
         if (persons.some(p => p.name === newName)) {
@@ -61,28 +62,49 @@ const App = () => {
     return (
         <div>
             <h2>Phonebook</h2>
-                <div>
-                    filter shown with: <input value={searchTerm} onChange={handleSearchTermChange}></input>
-                </div>
+            <Filter searchTerm={searchTerm} handleSearchTermChange={handleSearchTermChange} />
         
             <h2>Add new number</h2>
-            <form onSubmit={addInfo}>
-                <div>
-                    name:   <input value={newName} onChange={handleNameChange}/><br/>
-                    number: <input value={newNumber} onChange={handleNumberChange}/>
-                </div>
-                <div>
-                    <button type="submit" >add</button>
-                </div>
-            </form>
+            <PersonForm addInfo={addInfo} newName={newName} newNumber={newNumber} 
+            handleNameChange={handleNameChange} handleNumberChange={handleNumberChange} />
+
             <h2>Numbers</h2>
-            {persons.filter(p => p.show === true).map(p => <p key={p.name}> {p.name} {p.number}</p>)}
+            <Phonebook persons={persons} />
+
         </div>
     )
 }
 
 
+const Filter = ({searchTerm, handleSearchTermChange}) => {
+    return(
+        <div>
+            filter shown with: <input value={searchTerm} onChange={handleSearchTermChange}></input>
+        </div>
+    )
+}
 
+const PersonForm = (props) => {
+    return (
+        <form onSubmit={props.addInfo}>
+        <div>
+            name:   <input value={props.newName} onChange={props.handleNameChange}/><br/>
+            number: <input value={props.newNumber} onChange={props.handleNumberChange}/>
+        </div>
+        <div>
+            <button type="submit" >add</button>
+        </div>
+    </form>    )
+}
+
+
+const Phonebook = ({persons}) => {
+    return(
+        <div>
+            {persons.filter(p => p.show === true).map(p => <p key={p.name}> {p.name} {p.number}</p>)}
+        </div>
+    )
+}
 
 
 export default App
