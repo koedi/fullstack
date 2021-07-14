@@ -2,7 +2,7 @@ import React, {useState, useEffect} from "react";
 import axios from 'axios'
 
 import Finder from "./components/Finder";
-import Countries from "./components/Countries";
+import Results from "./components/Results";
 
 
 
@@ -29,7 +29,7 @@ function App() {
   return (
     <div>
       <Finder searchTerm={searchTerm} onChange={handleChange} /> 
-      <Countries searchTerm={searchTerm} filteredCountries={filteredCountries} />
+      <Results searchTerm={searchTerm} filteredCountries={filteredCountries} />
     </div>
   )
 }
