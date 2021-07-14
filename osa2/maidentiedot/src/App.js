@@ -18,7 +18,7 @@ function App() {
       .then(response => {
         setCountries(response.data)
       })
-  })
+  }, [])
 
   const handleChange = (event) => {
     setSearchTerm(event.target.value)
