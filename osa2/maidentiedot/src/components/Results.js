@@ -9,7 +9,7 @@ const Results = ({ searchTerm, filteredCountries }) => {
         return (<p>Too many matches, specify another filter</p>)
     } else {
         return (
-        filteredCountries.map(c => <Country country={c} count={filteredCountries.length} />)
+        filteredCountries.map((c, i) => <Country key={i}country={c} count={filteredCountries.length} />)
         )
     } 
 }

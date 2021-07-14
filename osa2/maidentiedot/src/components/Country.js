@@ -24,7 +24,6 @@ const Country = ({ country, count }) => {
             </div>
         )
     } else {
-
         return (
             <div>
                 {country.name}
