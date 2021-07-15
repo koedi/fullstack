@@ -17,6 +17,11 @@ const create = (newObject) => {
     return request.then(response => response.data)
 }
 
+const update = (personObject, newNumber) => {
+    const person = {...personObject, number: newNumber}
+    const request = axios.put(baseUrl.concat("/", person.id), person)
+    return request.then(response => response.data)
+}
 
 const remove = (id) => {
     console.log(id, "deleting this")
@@ -28,6 +33,7 @@ const exportObject = {
     getAll: getAll,
     getOne: getOne,
     create: create,
+    update: update,
     remove: remove,
 }
 
