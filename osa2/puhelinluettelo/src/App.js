@@ -29,7 +29,6 @@ const App = () => {
             return
         }
 
-
         const personObject = {
             name: newName,
             number: newNumber,
@@ -52,9 +51,6 @@ const App = () => {
                 setPersons(list)
                 showNotification(`${person.name} has already been deleted. Update failed.`, "error")
             })
-
-
-
 
             showNotification(`Updated ${person.name}'s number.`, "ok")
             return
