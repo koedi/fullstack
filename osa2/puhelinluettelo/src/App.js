@@ -10,14 +10,12 @@ const App = () => {
     const [newName, setNewName] = useState('')
     const [newNumber, setNewNumber] = useState('')
     const [searchTerm, setSearchTerm] = useState('')
-    const [filteredPersons, setFilteredPersons] = useState([''])
 
     useEffect( () => {
         axios
         .get('http://localhost:3001/persons')
         .then(response => {
             setPersons(response.data)
-            setFilteredPersons(response.data)
         })
     }, [])
 
@@ -28,7 +26,6 @@ const App = () => {
         const personObject = {
             name: newName,
             number: newNumber,
-            id: newName
         }
 
         if (persons.some(p => p.name === newName)) {
@@ -36,16 +33,13 @@ const App = () => {
             return
         }
 
+        axios.post('http://localhost:3001/persons', personObject)//.then(response => console.log(response))
+
         setPersons(persons.concat(personObject))
-        setFilteredPersons(persons.concat(personObject))
         setNewName('')
         setNewNumber('')
     }
 
-
-    const filterPersons = (event) => {
-        setFilteredPersons(persons.filter(p => (p.name.toLowerCase()).includes(event.target.value.toLowerCase())))
-    }
 
     const handleNameChange = (event) => {
         setNewName(event.target.value)
@@ -57,7 +51,6 @@ const App = () => {
 
     const handleSearchTermChange = (event) => {
         setSearchTerm(event.target.value)
-        filterPersons(event)
     }
 
 
@@ -72,7 +65,7 @@ const App = () => {
             handleNameChange={handleNameChange} handleNumberChange={handleNumberChange} />
 
             <h2>Numbers</h2>
-            <Phonebook filteredPersons={filteredPersons}/>
+            <Phonebook persons={persons} searchTerm={searchTerm}/>
         </div>
     )
 }
