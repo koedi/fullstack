@@ -24,7 +24,6 @@ const update = (personObject, newNumber) => {
 }
 
 const remove = (id) => {
-    console.log(id, "deleting this")
     const request = axios.delete(baseUrl.concat("/",id))
     return request.then(response => response.data)
 }
