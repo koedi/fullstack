@@ -6,7 +6,7 @@ import Phonebook from './components/Phonebook'
 import PersonForm from './components/PersonForm'
 
 const App = () => {
-    const [persons, setPersons] = useState([''])
+    const [persons, setPersons] = useState([])
     const [newName, setNewName] = useState('')
     const [newNumber, setNewNumber] = useState('')
     const [searchTerm, setSearchTerm] = useState('')
@@ -18,7 +18,6 @@ const App = () => {
             setPersons(response.data)
         })
     }, [])
-
 
 
     const addInfo = (event) => {
