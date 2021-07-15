@@ -23,6 +23,13 @@ const App = () => {
 
     const addInfo = (event) => {
         event.preventDefault()
+
+        if (newName === '' || newNumber === '') {
+            showNotification("name or number is empty.", "error")
+            return
+        }
+
+
         const personObject = {
             name: newName,
             number: newNumber,
@@ -40,7 +47,16 @@ const App = () => {
                     persons.map(p => p.name === person.name ? updatedPerson : p)
                 )
             })
-            showNotification(`Updated ${person.name} number`, "ok")
+            .catch(error => {
+                const list = persons.filter(p => p.id !== person.id) //filter out deleted id
+                setPersons(list)
+                showNotification(`${person.name} has already been deleted. Update failed.`, "error")
+            })
+
+
+
+
+            showNotification(`Updated ${person.name}'s number.`, "ok")
             return
         }
 
@@ -48,7 +64,7 @@ const App = () => {
         setNewName('')
         setNewNumber('')
 
-        showNotification(`Added ${newName}`, "ok")
+        showNotification(`Added ${newName}.`, "ok")
     }
 
     const deleteInfo = (id) => {
