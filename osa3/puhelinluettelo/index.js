@@ -1,11 +1,22 @@
+const { request } = require('express')
 const express = require('express')
-const app = express()
 const morgan = require('morgan')
 
+const app = express()
 
-// middleware
+// Middleware
 app.use(express.json())
-app.use(morgan('tiny'))
+
+// ** configure morgan to show extra info for POST
+morgan.token('post', (request, response) => {
+    if(request.method === "POST") {
+        return JSON.stringify(request.body)
+    } else {
+        return ""
+    }
+})
+app.use(morgan(":method :url :status :res[content-length] - :response-time ms :post"))
+
 
 
 
@@ -37,7 +48,6 @@ app.get('/', (req, res) => {
     res.send("hello world!")
 })
 
-
 app.get('/api/persons', (req, res) => {
     res.json(persons)
 })
@@ -67,28 +77,23 @@ app.post('/api/persons', (req, res) => {
     const person = req.body
 
     if (!req.body.name) {
-        console.log("app.post(): no name")
-        res.status(400).json({error: 'name is missing'})
-        return
-    }
-    if (!req.body.number) {
-        console.log("app.post(): no number")
-        res.status(400).json({error: 'number is missing'})
-        return
-    }
-    console.log(persons.some(p => p.name === req.body.name))
-    if (persons.some(p => p.name === req.body.name)) {
-        console.log("app.post(): an entry exists for: ", req.body.name)
-        res.status(400).json({error: 'an entry exists for that name'})
-        return
+        return res.status(400).json({error: 'name is missing'})        
+    } else if (!req.body.number) {
+        return res.status(400).json({error: 'number is missing'})
+    } else if (persons.some(p => p.name === req.body.name)) {
+        return res.status(400).json({error: 'an entry exists for that name'})
     }
 
     const maxId = persons.length > 0 ? Math.max(...persons.map(p => p.id)) : 0
-    person.id = maxId + 1
+    
+    const newPerson = {
+        name:  req.body.name,
+        number:  req.body.number,
+        id: maxId + 1
+    }
 
-    persons = persons.concat(person)
+    persons = persons.concat(newPerson)
 
-    console.log("app.post(): created new entry:", person)
     res.json(person)
 })
 
