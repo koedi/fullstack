@@ -35,6 +35,7 @@ const App = () => {
         }
 
         // update info
+        /*
         if (persons.some(p => p.name === newName)) {
             const person = persons.find(p => p.name === newName)
             
@@ -55,6 +56,7 @@ const App = () => {
             showNotification(`Updated ${person.name}'s number.`, "ok")
             return
         }
+        */
 
         personsService.create(personObject).then(returnedPerson => setPersons(persons.concat(returnedPerson)))
         setNewName('')
