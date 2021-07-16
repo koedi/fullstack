@@ -47,10 +47,6 @@ let persons = [
     }
 ]
 
-app.get('/', (req, res) => {
-    res.send("hello world!")
-})
-
 app.get('/api/persons', (req, res) => {
     res.json(persons)
 })
