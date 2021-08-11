@@ -1,7 +1,6 @@
 const mongoose = require('mongoose')
 
 const url = process.env.MONGODB_URI
-//const url = `mongodb+srv://fsmongo:UXmiy@cluster0.q4ahp.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`
 
 console.log('connecting to', url)
 mongoose.connect(url, {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: true, useCreateIndex: true})
