@@ -49,7 +49,6 @@ let persons = [
 */
 
 app.get('/api/persons', (req, res) => {
-    //res.json(persons)
     Entry.find({}).then(entries => {
         res.json(entries)
     })
@@ -103,7 +102,7 @@ app.post('/api/persons', (req, res) => {
 
 
 
-const PORT = process.env.PORT //|| 3001
+const PORT = process.env.PORT
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`)
 })
