@@ -27,8 +27,11 @@ const errorHandler = (error, request, response, next) => {
     console.log(error.message)
 
     if (error.name === 'CastError') {
-        return response.send({error: 'malformatted id'})
+        return response.status(400).send({error: 'malformatted id'})
+    } else if (error.name === 'ValidationError') {
+        return response.status(400).json({error: error.message})
     }
+    
     next(error)
 }
 
@@ -76,7 +79,7 @@ app.post('/api/persons', (req, res, next) => {
     } else if (!req.body.number) {
         return res.status(400).json({error: 'number is missing'})
     } 
-    
+
     const entry = new Entry( {
         name: req.body.name,
         number: req.body.number
