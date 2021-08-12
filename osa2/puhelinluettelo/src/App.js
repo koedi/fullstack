@@ -35,34 +35,44 @@ const App = () => {
         }
 
         // update info
-        
         if (persons.some(p => p.name === newName)) {
             const person = persons.find(p => p.name === newName)
             
-            window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)
-            personsService
-            .update(person, newNumber)
-            .then(updatedPerson => {
-                setPersons(
-                    persons.map(p => p.name === person.name ? updatedPerson : p)
-                )
-            })
-            .catch(error => {
-                const list = persons.filter(p => p.id !== person.id) //filter out deleted id
-                setPersons(list)
-                showNotification(`${person.name} has already been deleted. Update failed.`, "error")
-            })
+            if (window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)) {
+                personsService
+                    .update(person, newNumber)
+                    .then(updatedPerson => {
+                        setPersons(
+                            persons.map(p => p.name === person.name ? updatedPerson : p)
+                        )
+                    })
+                    .catch(error => {
+                        const list = persons.filter(p => p.id !== person.id) //filter out deleted id
+                        setPersons(list)
+                        showNotification(`${person.name} has already been deleted. Update failed.`, "error")
+                    })
 
-            showNotification(`Updated ${person.name}'s number.`, "ok")
-            return
+                showNotification(`Updated ${person.name}'s number.`, "ok")
+                setNewName('')
+                setNewNumber('')
+                return
+            } else {
+                return
+            }
         }
         
+        personsService
+        .create(personObject)
+        .then(returnedPerson => {
+            setPersons(persons.concat(returnedPerson))
+            showNotification(`Added ${newName}.`, "ok")    
+            setNewName('')
+            setNewNumber('')
+        })
+        .catch(error => {
+            showNotification(error.message, 'error')
+        })
 
-        personsService.create(personObject).then(returnedPerson => setPersons(persons.concat(returnedPerson)))
-        setNewName('')
-        setNewNumber('')
-
-        showNotification(`Added ${newName}.`, "ok")
     }
 
     const deleteInfo = (id) => {
@@ -78,7 +88,7 @@ const App = () => {
 
     const showNotification = (message, status) => {
         setNofitication({message: message, status: status})
-        setTimeout(() => setNofitication({message: null, status: null}), 3000)
+        setTimeout(() => setNofitication({message: null, status: null}), 4000)
     }
 
 
