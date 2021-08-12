@@ -91,6 +91,20 @@ app.post('/api/persons', (req, res, next) => {
     .catch(error => next(error))
 })
 
+app.put('/api/persons/:id', (req, res, next) => {
+    const entry = {
+        name: req.body.name,
+        number: req.body.number,
+    }
+
+    Entry.findByIdAndUpdate(req.params.id, entry, {new: true})
+    .then(updatedEntry => {
+        res.json(updatedEntry)
+    })
+    .catch(error => next(error))
+})
+
+
 
 app.use(unknownEndpoint)
 app.use(errorHandler)
