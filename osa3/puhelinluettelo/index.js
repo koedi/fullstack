@@ -76,27 +76,24 @@ app.delete('/api/persons/:id', (req, res) => {
 })
 
 app.post('/api/persons', (req, res) => {
-    const person = req.body
-
     if (!req.body.name) {
         return res.status(400).json({error: 'name is missing'})        
     } else if (!req.body.number) {
         return res.status(400).json({error: 'number is missing'})
-    } else if (persons.some(p => p.name === req.body.name)) {
+    } /*else if (persons.some(p => p.name === req.body.name)) {
         return res.status(400).json({error: 'an entry exists for that name'})
-    }
+    }*/
 
-    const maxId = persons.length > 0 ? Math.max(...persons.map(p => p.id)) : 0
-    
-    const newPerson = {
-        name:  req.body.name,
-        number:  req.body.number,
-        id: maxId + 1
-    }
+    const entry = new Entry( {
+        name: req.body.name,
+        number: req.body.number
+    })
 
-    persons = persons.concat(newPerson)
+    entry.save().then(result => {
+        console.log('number saved')
+    })
 
-    res.json(newPerson)
+    res.json(entry)
 })
 
 
