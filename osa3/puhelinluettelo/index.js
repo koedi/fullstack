@@ -1,5 +1,4 @@
 require('dotenv').config()
-//const { request } = require('express')
 const express = require('express')
 const morgan = require('morgan')
 const cors = require('cors')
@@ -12,7 +11,7 @@ app.use(express.static('build'))
 app.use(express.json())
 app.use(cors())
 
-// ** configure morgan to show extra info for POST
+// configure morgan to show extra info for POST
 morgan.token('post', (request, response) => {
     if(request.method === "POST") {
         return JSON.stringify(request.body)
@@ -76,10 +75,8 @@ app.post('/api/persons', (req, res, next) => {
         return res.status(400).json({error: 'name is missing'})        
     } else if (!req.body.number) {
         return res.status(400).json({error: 'number is missing'})
-    } /*else if (persons.some(p => p.name === req.body.name)) {    "number": "555-4233"
-        return res.status(400).json({error: 'an entry exists for that name'})
-    }*/
-
+    } 
+    
     const entry = new Entry( {
         name: req.body.name,
         number: req.body.number
