@@ -69,10 +69,11 @@ app.get('/api/persons/:id', (req, res) => {
 })
 
 app.delete('/api/persons/:id', (req, res) => {
-    const id = Number(req.params.id)
-    persons = persons.filter(p => p.id !== id)
-
-    res.status(204).end()
+    Entry.findByIdAndRemove(req.params.id)
+    .then(entry => {
+        res.status(204).end()
+    })
+    .catch(error => next(error))
 })
 
 app.post('/api/persons', (req, res) => {
@@ -80,7 +81,7 @@ app.post('/api/persons', (req, res) => {
         return res.status(400).json({error: 'name is missing'})        
     } else if (!req.body.number) {
         return res.status(400).json({error: 'number is missing'})
-    } /*else if (persons.some(p => p.name === req.body.name)) {
+    } /*else if (persons.some(p => p.name === req.body.name)) {    "number": "555-4233"
         return res.status(400).json({error: 'an entry exists for that name'})
     }*/
 
