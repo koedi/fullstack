@@ -10,6 +10,10 @@ const totalLikes = (blogs) => {
   return blogs.size === 0 ? 0 : blogs.reduce(reducer, 0)
 }
 
+const favoriteBlog = (blogs) => {
+  return 0
+}
+
 
 
 
