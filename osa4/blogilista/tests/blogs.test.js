@@ -93,3 +93,28 @@ describe('favorite blog', () => {
     expect(result).toMatchObject(expectedResult)
   })
 })
+
+describe('author with most blogs', () => {
+  test('should be one', () => {
+    const result = list_helper.mostBlogs(multipleBlogs)
+    const expectedResult =
+    {
+      author: 'Robert C. Martin',
+      blogs: 3,
+    }
+
+    expect(result).toMatchObject(expectedResult)
+  })
+})
+
+describe('author with most blogs', () => {
+  test('should be one', () => {
+    const result = list_helper.mostLikes(multipleBlogs)
+    const expectedResult =
+    {
+      author: 'Edsger W. Dijkstra',
+      likes: 17,
+    }
+    expect(result).toMatchObject(expectedResult)
+  })
+})
