@@ -35,8 +35,6 @@ const mostBlogs = (blogs) => {
     }))
     .value()
 
-  console.log(grouped)
-
   return _.maxBy(grouped, 'blogs')
 }
 
