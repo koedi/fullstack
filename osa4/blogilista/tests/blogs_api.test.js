@@ -93,8 +93,12 @@ describe('blogging is fun!', () => {
     const responseAfter = await api.get('/api/blogs')
 
     expect(responseAfter.body).toHaveLength(responseBefore.body.length + 1)
-
   })
+
+  test('no likes :(', async () => {
+    
+  })
+
 })
 
 
