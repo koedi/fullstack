@@ -85,7 +85,21 @@ describe('blogging is fun!', () => {
       .expect(400)
   })
 
+  test('adding and removing', async () => {
+    const newEntry = {
+      title:	'Aku Ankan parhaat vol. 3',
+      author:	'Carl Barks',
+      url:	'http://ankka.org/',
+      likes:	666
+    }
+
+    const response = await api.post('/api/blogs').send(newEntry).expect(201)
+    await api.delete(`/api/blogs/${response.body.id}`).expect(204)
+
+  })
+
 })
+
 
 
 
