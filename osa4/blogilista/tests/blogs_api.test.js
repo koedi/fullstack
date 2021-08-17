@@ -1,4 +1,4 @@
-const { test, expect, describe, afterAll, beforeEach} = require('@jest/globals')
+const { test, expect, describe, afterAll, beforeEach } = require('@jest/globals')
 const mongoose = require('mongoose')
 const supertest = require('supertest')
 const app = require('../app')
@@ -39,10 +39,10 @@ describe('blogging is fun!', () => {
 
   test('new entry', async () => {
     const newEntry = {
-      title:	'Aku Ankan parhaat vol. 3',
-      author:	'Carl Barks',
-      url:	'http://ankka.org/',
-      likes:	666
+      title: 'Aku Ankan parhaat vol. 3',
+      author: 'Carl Barks',
+      url: 'http://ankka.org/',
+      likes: 666
     }
 
     await api
@@ -58,9 +58,9 @@ describe('blogging is fun!', () => {
 
   test('no likes :(', async () => {
     const newEntry = {
-      title:	'Aku Ankan parhaat vol. 99',
-      author:	'Carl Barks',
-      url:	'http://ankka.org/'
+      title: 'Aku Ankan parhaat vol. 99',
+      author: 'Carl Barks',
+      url: 'http://ankka.org/'
     }
 
     await api
@@ -75,7 +75,7 @@ describe('blogging is fun!', () => {
 
   test('no title or url -> NOK', async () => {
     const newEntry = {
-      author:	'Carl Barks',
+      author: 'Carl Barks',
       likes: 747
     }
 
@@ -87,16 +87,36 @@ describe('blogging is fun!', () => {
 
   test('adding and removing', async () => {
     const newEntry = {
-      title:	'Aku Ankan parhaat vol. 3',
-      author:	'Carl Barks',
-      url:	'http://ankka.org/',
-      likes:	666
+      title: 'Aku Ankan parhaat vol. 3',
+      author: 'Carl Barks',
+      url: 'http://ankka.org/',
+      likes: 666
     }
 
     const response = await api.post('/api/blogs').send(newEntry).expect(201)
     await api.delete(`/api/blogs/${response.body.id}`).expect(204)
-
   })
+
+  test('adding likes <3<3', async () => {
+    const newEntry = {
+      title: 'Aku Ankan parhaat vol. 3',
+      author: 'Carl Barks',
+      url: 'http://ankka.org/',
+      likes: 666
+    }
+
+    const response = await api.post('/api/blogs').send(newEntry).expect(201)
+
+    const updatedEntry = {
+      title: 'Aku Ankan parhaat vol. 3',
+      author: 'Carl Barks',
+      url: 'http://ankka.org/',
+      likes: 676
+    }
+
+    await api.put(`/api/blogs/${response.body.id}`).send(updatedEntry).expect(200)
+  })
+
 
 })
 
