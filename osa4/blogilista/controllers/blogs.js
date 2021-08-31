@@ -60,15 +60,6 @@ blogsRouter.post('/', async (request, response, next) => {
   } catch (exception) {
     next(exception)
   }
-
-  /*
-  blog
-    .save()
-    .then(result => {
-      response.status(201).json(result)
-    })
-    .catch(error => console.log(error))
-    */
 })
 
 module.exports = blogsRouter
