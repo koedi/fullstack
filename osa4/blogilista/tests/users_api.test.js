@@ -2,14 +2,14 @@ const { test, expect, describe, afterAll, beforeEach } = require('@jest/globals'
 const mongoose = require('mongoose')
 const supertest = require('supertest')
 const app = require('../app')
-const Blog = require('../models/user')
+const User = require('../models/user')
 const helper = require('./test_helper')
 
 const api = supertest(app)
 
 beforeEach(async () => {
-  await Blog.deleteMany({})
-  await Blog.insertMany(helper.initialUsers)
+  await User.deleteMany({})
+  await User.insertMany(helper.initialUsers)
 })
 
 describe('adding on top of initial users', () => {
@@ -46,15 +46,9 @@ describe('adding on top of initial users', () => {
       .expect(201)
       .expect('Content-Type', /application\/json/)
 
-    const newUser2 = {
-      'username': 'pelle',
-      'name': 'Pelle Peloton 2',
-      'password': 'salasana'
-    }
-
     await api
       .post('/api/users')
-      .send(newUser2)
+      .send(newUser)
       .expect(400)
       .expect('Content-Type', /application\/json/)
   })
@@ -88,16 +82,15 @@ describe('adding on top of initial users', () => {
       .expect(400)
       .expect('Content-Type', /application\/json/)
   })
-
-
-
-
 })
 
 
 
 
-afterAll(() => {
+afterAll(async () => {
+  await User.deleteMany({})
+  await User.insertMany(helper.initialUsers)
+
   mongoose.connection.close()
 })
 

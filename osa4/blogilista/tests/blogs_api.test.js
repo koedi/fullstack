@@ -3,6 +3,7 @@ const mongoose = require('mongoose')
 const supertest = require('supertest')
 const app = require('../app')
 const Blog = require('../models/blog')
+const User = require('../models/user')
 const helper = require('./test_helper')
 
 const api = supertest(app)
@@ -10,8 +11,11 @@ const api = supertest(app)
 
 
 beforeEach(async () => {
+  await User.deleteMany({})
+  await User.insertMany(helper.initialUsers)
   await Blog.deleteMany({})
   await Blog.insertMany(helper.initialBlogs)
+
 })
 
 
@@ -123,6 +127,11 @@ describe('blogging is fun!', () => {
 
 
 
-afterAll(() => {
+afterAll(async () => {
+  await Blog.deleteMany({})
+  await Blog.insertMany(helper.initialBlogs)
+  await User.deleteMany({})
+  await User.insertMany(helper.initialUsers)
+
   mongoose.connection.close()
 })
