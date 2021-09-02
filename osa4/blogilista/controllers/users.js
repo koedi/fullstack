@@ -9,8 +9,6 @@ usersRouter.get('/', async (request, response) => {
 })
 
 
-
-
 usersRouter.post('/', async (request, response, next) => {
 
   if (request.body.password.length < 3) {
