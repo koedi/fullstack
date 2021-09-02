@@ -1,6 +1,5 @@
 const blogsRouter = require('express').Router()
 const Blog = require('../models/blog')
-const User = require('../models/user')
 const jwt = require('jsonwebtoken')
 require('express-async-errors')
 
@@ -21,15 +20,8 @@ blogsRouter.get('/:id', async (request, response) => {
 })
 
 blogsRouter.delete('/:id', async (request, response) => {
-
-  const decodedToken = jwt.verify(request.token, process.env.SECRET)
-  if (!request.token || !decodedToken.id) {
-    return response.status(401).json({ error: 'token missing or invalid' })
-  }
-
   const blog = await Blog.findById(request.params.id)
-
-  if (blog.user.toString() !== decodedToken.id.toString()) {
+  if (blog.user.toString() !== request.user.id.toString()) {
     return response.status(401).json({ error: 'invalid credentials' })
   }
 
