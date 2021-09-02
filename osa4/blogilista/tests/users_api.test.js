@@ -4,18 +4,11 @@ const supertest = require('supertest')
 const app = require('../app')
 const User = require('../models/user')
 const helper = require('./test_helper')
-const bcrypt = require('bcrypt')
 
 const api = supertest(app)
 
 beforeEach(async () => {
   await User.deleteMany({})
-
-  const passwordHash = await bcrypt.hash('root', 10)
-  const user = new User({ username: 'root', passwordHash })
-
-  await user.save()
-
 })
 
 describe('adding on top of initial users', () => {
@@ -23,7 +16,7 @@ describe('adding on top of initial users', () => {
     const startingUsers = await helper.usersInDB()
 
     const newUser = {
-      'username': 'pelle',
+      'username': 'pelle1',
       'name': 'Pelle Peloton',
       'password': 'salasana'
     }
@@ -41,7 +34,7 @@ describe('adding on top of initial users', () => {
 
   test('adding existing user', async () => {
     const newUser = {
-      'username': 'pelle',
+      'username': 'pelle2',
       'name': 'Pelle Peloton',
       'password': 'salasana'
     }
@@ -62,7 +55,7 @@ describe('adding on top of initial users', () => {
 
   test('too short password', async () => {
     const newUser = {
-      'username': 'pelle',
+      'username': 'pelle3',
       'name': 'Pelle Peloton',
       'password': 'ss'
     }
