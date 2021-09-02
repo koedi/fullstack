@@ -4,12 +4,18 @@ const supertest = require('supertest')
 const app = require('../app')
 const User = require('../models/user')
 const helper = require('./test_helper')
+const bcrypt = require('bcrypt')
 
 const api = supertest(app)
 
 beforeEach(async () => {
   await User.deleteMany({})
-  await User.insertMany(helper.initialUsers)
+
+  const passwordHash = await bcrypt.hash('root', 10)
+  const user = new User({ username: 'root', passwordHash })
+
+  await user.save()
+
 })
 
 describe('adding on top of initial users', () => {

@@ -12,7 +12,6 @@ const api = supertest(app)
 
 beforeEach(async () => {
   await User.deleteMany({})
-  await User.insertMany(helper.initialUsers)
   await Blog.deleteMany({})
   await Blog.insertMany(helper.initialBlogs)
 
@@ -29,17 +28,35 @@ describe('babbys first async/await', () => {
   })
 
 
+})
+
+describe('testing blog properties', () => {
+  test('id is id not _id', async () => {
+    const response = await api.get('/api/blogs')
+    expect(response.body[0].id).toBeDefined()
+  })
+
   test('there are six blogs', async () => {
     const response = await api.get('/api/blogs')
     expect(response.body).toHaveLength(6)
   })
 })
 
+
 describe('blogging is fun!', () => {
-  test('id is id not _id', async () => {
-    const response = await api.get('/api/blogs')
-    expect(response.body[0].id).toBeDefined()
+  
+  beforeEach(async () => {
+    const newUser = {
+      username: 'juuri',
+      name: 'juuri',
+      password: 'juuri'
+    }
+
+    await api
+      .post('/api/users')
+      .send(newUser)
   })
+  
 
   test('new entry', async () => {
     const newEntry = {
@@ -60,6 +77,7 @@ describe('blogging is fun!', () => {
     expect(responseAfter.body).toHaveLength(helper.initialBlogs.length + 1)
   })
 
+
   test('no likes :(', async () => {
     const newEntry = {
       title: 'Aku Ankan parhaat vol. 99',
@@ -77,6 +95,7 @@ describe('blogging is fun!', () => {
     expect(response.body[6].likes).toBe(0)
   })
 
+
   test('no title or url -> NOK', async () => {
     const newEntry = {
       author: 'Carl Barks',
@@ -88,6 +107,7 @@ describe('blogging is fun!', () => {
       .send(newEntry)
       .expect(400)
   })
+
 
   test('adding and removing', async () => {
     const newEntry = {

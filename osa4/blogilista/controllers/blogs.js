@@ -47,9 +47,9 @@ blogsRouter.post('/', async (request, response, next) => {
     return
   }
 
-  //adding first user as author
+  //select randon user as author
   const users = await User.find({})
-  const user = users[0]
+  const user = users[Math.floor(Math.random() * users.length)]
 
   const blog = new Blog({
     author: request.body.author,

@@ -45,12 +45,12 @@ const initialUsers = [
   {
     'username': 'akuankka',
     'name': 'Aku Ankka',
-    'password': '123qwe'
+    'passwordHash': '$2b$10$Yq3FCMuwed6w7V6KsMQZN.SHXu3.bhJ1G5uEcvJVYkp9WgJVQPb.6'  //123qwe
   },
   {
     'username': 'inkku69',
     'name': 'Iines Ankka',
-    'password': 'salasana'
+    'passwordHash': '$2b$10$YbM3USyUVTpymMy0i3ASqeehyBUUVXzR1fcVz.hWi7j09FPOh5ngK'  //salasana
   }
 ]
 
