@@ -9,18 +9,9 @@ const helper = require('./test_helper')
 const api = supertest(app)
 
 
-
 beforeEach(async () => {
   await User.deleteMany({})
   await Blog.deleteMany({})
-
-  const newUser = new User({
-    username: 'juuri',
-    name: 'juuri',
-    password: 'juuri'
-  })
-  await newUser.save()
-
 })
 
 
@@ -32,8 +23,6 @@ describe('babbys first async/await', () => {
       .expect(200)
       .expect('Content-Type', /application\/json/)
   })
-
-
 })
 
 describe('testing blog properties', () => {
@@ -61,6 +50,30 @@ describe('testing blog properties', () => {
 
 
 describe('blogging is fun!', () => {
+  var token = null
+  beforeEach(async () => {
+
+    //create new user
+    const newUser = {
+      username: 'juuri',
+      name: 'juuri',
+      password: 'juuri'
+    }
+
+    await api
+      .post('/api/users')
+      .send(newUser)
+      .expect(201)
+
+    //login new user
+    const response = await api
+      .post('/api/login')
+      .send({ username: newUser.username, password: newUser.password })
+      .expect(200)
+
+    token = response.body.token
+  })
+
   test('new entry', async () => {
     const newEntry = {
       title: 'Aku Ankan parhaat vol. 3',
@@ -71,6 +84,8 @@ describe('blogging is fun!', () => {
 
     await api
       .post('/api/blogs')
+      .set('Content-Type', 'application\/json')
+      .set('Authorization', `bearer ${token}`)
       .send(newEntry)
       .expect(201)
       .expect('Content-Type', /application\/json/)
@@ -90,6 +105,8 @@ describe('blogging is fun!', () => {
 
     await api
       .post('/api/blogs')
+      .set('Content-Type', 'application\/json')
+      .set('Authorization', `bearer ${token}`)
       .send(newEntry)
       .expect(201)
       .expect('Content-Type', /application\/json/)
@@ -107,6 +124,8 @@ describe('blogging is fun!', () => {
 
     await api
       .post('/api/blogs')
+      .set('Content-Type', 'application\/json')
+      .set('Authorization', `bearer ${token}`)
       .send(newEntry)
       .expect(400)
   })
@@ -120,8 +139,17 @@ describe('blogging is fun!', () => {
       likes: 666
     }
 
-    const response = await api.post('/api/blogs').send(newEntry).expect(201)
-    await api.delete(`/api/blogs/${response.body.id}`).expect(204)
+    const response =
+    await api
+      .post('/api/blogs')
+      .set('Content-Type', 'application\/json')
+      .set('Authorization', `bearer ${token}`)
+      .send(newEntry).expect(201)
+    await api
+      .delete(`/api/blogs/${response.body.id}`)
+      .set('Content-Type', 'application\/json')
+      .set('Authorization', `bearer ${token}`)
+      .expect(204)
   })
 
   test('adding likes <3<3', async () => {
@@ -132,7 +160,13 @@ describe('blogging is fun!', () => {
       likes: 666
     }
 
-    const response = await api.post('/api/blogs').send(newEntry).expect(201)
+    const response = 
+    await api
+      .post('/api/blogs')
+      .set('Content-Type', 'application\/json')
+      .set('Authorization', `bearer ${token}`)
+      .send(newEntry)
+      .expect(201)
 
     const updatedEntry = {
       title: 'Aku Ankan parhaat vol. 3',
@@ -141,7 +175,12 @@ describe('blogging is fun!', () => {
       likes: 676
     }
 
-    await api.put(`/api/blogs/${response.body.id}`).send(updatedEntry).expect(200)
+    await api
+      .put(`/api/blogs/${response.body.id}`)
+      .set('Content-Type', 'application\/json')
+      .set('Authorization', `bearer ${token}`)
+      .send(updatedEntry)
+      .expect(200)
   })
 
 

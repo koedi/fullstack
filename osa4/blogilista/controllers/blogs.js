@@ -1,6 +1,5 @@
 const blogsRouter = require('express').Router()
 const Blog = require('../models/blog')
-const jwt = require('jsonwebtoken')
 require('express-async-errors')
 
 
@@ -37,7 +36,6 @@ blogsRouter.put('/:id', async (request, response) => {
 
 
 blogsRouter.post('/', async (request, response) => {
-
   if (request.body.title === undefined && request.body.url === undefined) {
     response.status(400).end()
     return
