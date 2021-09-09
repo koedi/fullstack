@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import Blog from './components/Blog'
+import Notification from './components/Notification'
 import blogService from './services/blogs'
 import loginService from './services/login'
+
+import './App.css'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -14,7 +17,7 @@ const App = () => {
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
 
-  const [errorMessage, setErrorMessage] = useState('')
+  const [notification, setNotification] = useState({message: null, type: null})
 
 
   useEffect(() => {
@@ -30,6 +33,13 @@ const App = () => {
       setUser(user)
     }
   }, [])
+
+  const showNotification = (type, message) => {
+    setNotification({message: message, type: type})
+    setTimeout(() => {
+      setNotification({message: null, type:null})
+    }, 3000)
+  }
 
 
 
@@ -51,10 +61,9 @@ const App = () => {
       setUsername('')
       setPassword('')
     } catch (exception) {
-      setErrorMessage('invalid credentials')
-      setTimeout(() => {
-        setErrorMessage(null)
-      }, 5000)
+      showNotification('NOK', 'Wrond username or password')
+      setUsername('')
+      setPassword('')
     }
 
 
@@ -83,6 +92,7 @@ const App = () => {
         setTitle('')
         setAuthor('')
         setUrl('')
+        showNotification('OK', `A new blog "${title}" by ${author} added`)
       })
     } catch (exception) {
 
@@ -138,6 +148,7 @@ const App = () => {
 
   return (
     <div>
+      <Notification message={notification.message} className={notification.type} />
       {user === null ? loginForm() : showBlogs()}
     </div>
 
