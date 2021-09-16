@@ -13,11 +13,6 @@ const App = () => {
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
 
-
-  const [title, setTitle] = useState('')
-  const [author, setAuthor] = useState('')
-  const [url, setUrl] = useState('')
-
   const [notification, setNotification] = useState({ message: null, type: null })
 
   const [blogFormVisible, setBlogFormVisible] = useState(false)
@@ -43,7 +38,19 @@ const App = () => {
       setNotification({ message: null, type: null })
     }, 3000)
   }
+  const createBlog = async (blogObject) => {
+    console.log('creating new blog')
 
+    try {
+      await blogService
+        .create(blogObject)
+        .then(blog => {
+          setBlogs(blogs.concat(blog))
+          showNotification('OK', `A new blog "${blog.title}" by ${blog.author} added`)
+        })
+    } catch (exception) {
+    }
+  }
 
 
   const handleLogin = async (event) => {
@@ -75,31 +82,6 @@ const App = () => {
   const logoutUser = () => {
     window.localStorage.clear()
     setUser(null)
-  }
-
-  const createBlog = async (event) => {
-    event.preventDefault()
-    console.log('creating new blog')
-
-    const newBlog = {
-      title: title,
-      author: author,
-      url: url
-    }
-
-    try {
-      await blogService
-        .create(newBlog)
-        .then(blog => {
-          setBlogs(blogs.concat(blog))
-          setTitle('')
-          setAuthor('')
-          setUrl('')
-          showNotification('OK', `A new blog "${title}" by ${author} added`)
-        })
-    } catch (exception) {
-
-    }
   }
 
 
@@ -135,15 +117,7 @@ const App = () => {
         </div>
 
         <div style={showWhenVisible}>
-          <BlogForm
-            handleTitleChange={({ target }) => setTitle(target.value)}
-            handleAuthorChange={({ target }) => setAuthor(target.value)}
-            handleUrlChange={({ target }) => setUrl(target.value)}
-            title={title}
-            author={author}
-            url={url}
-            handleCreateBlog={createBlog}
-          />
+          <BlogForm createBlog={createBlog} />
         </div>
         <div style={showWhenVisible}>
           <button onClick={() => setBlogFormVisible(false)}>cancel</button>
@@ -158,6 +132,8 @@ const App = () => {
     )
   }
 
+
+
   return (
     <div>
       <Notification message={notification.message} className={notification.type} />
@@ -165,11 +141,6 @@ const App = () => {
     </div>
 
   )
-
-
-
-
-
 }
 
 export default App
