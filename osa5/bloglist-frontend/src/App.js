@@ -55,8 +55,9 @@ const App = () => {
 
   const addLike = async (id, blogObject) => {
     try {
-    await blogService.update(id, blogObject)
-    setBlogs(blogs.map((blog) => (blog.id !== id ? blog : blogObject)))
+      await blogService.update(id, blogObject)
+      const updatedBlogList = blogs.map((blog) => (blog.id !== id ? blog : blogObject))
+      setBlogs(updatedBlogList.sort((a, b) => b.likes - a.likes))
     } catch (exception) {
     }
   }
