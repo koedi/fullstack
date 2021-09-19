@@ -9,18 +9,9 @@ const Blog = ({ blog, addLike }) => {
   const hideWhenVisible = { display: showMore ? 'none' : '' }
   const showWhenVisible = { display: showMore ? '' : 'none' }
 
-  const update = () => {
-    console.log(blog)
-      const id = blog.id
-      const updateBlog = {
-        user: blog.user?.id || blog.user,
-        likes: blog.likes + 1,
-        title: blog.title,
-        author: blog.author,
-        url: blog.url,
-        id: blog.id
-      }
-    addLike(id, updateBlog)
+  const handleAddLike = () => {
+    const updatedBlog = { ...blog, likes: blog.likes + 1}
+    addLike(blog.id, updatedBlog)
   }
 
 
@@ -33,7 +24,7 @@ const Blog = ({ blog, addLike }) => {
       <div style={showWhenVisible}>
         {blog.title} {blog.author} <button onClick={() =>  setShowMore(false)}>show less</button><br/>
         {blog.url}<br/>
-        likes: {blog.likes} <button onClick={update}>like</button><br/>
+        likes: {blog.likes} <button onClick={handleAddLike}>like</button><br/>
       </div>
 
     </div>
