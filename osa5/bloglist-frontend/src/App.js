@@ -19,8 +19,7 @@ const App = () => {
 
 
   useEffect(() => {
-    blogService.getAll().then(blogs =>
-      setBlogs(blogs)
+    blogService.getAll().then(blogs => setBlogs(blogs)
     )
   }, [])
 
@@ -43,12 +42,10 @@ const App = () => {
     console.log('creating new blog')
 
     try {
-      await blogService
-        .create(blogObject)
-        .then(blog => {
-          setBlogs(blogs.concat(blog))
-          showNotification('OK', `A new blog "${blog.title}" by ${blog.author} added`)
-        })
+      await blogService.create(blogObject)
+      const allBlogs = await blogService.getAll()
+      setBlogs(allBlogs)
+      showNotification('OK', `A new blog "${blogObject.title}" by ${blogObject.author} added`)
     } catch (exception) {
     }
   }
@@ -62,7 +59,16 @@ const App = () => {
     }
   }
 
+  const removeBlog = async (id) => {
+    console.log('removing blog')
 
+    try {
+      await blogService.remove(id)
+      setBlogs(blogs.filter(blog => blog.id !== id))
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   const handleLogin = async (event) => {
     event.preventDefault()
@@ -134,10 +140,8 @@ const App = () => {
           <button onClick={() => setBlogFormVisible(false)}>cancel</button>
         </div>
 
-
-
         {blogs.map(blog =>
-          <Blog key={blog.id} blog={blog} addLike={addLike} />
+          <Blog key={blog.id} blog={blog} addLike={addLike} removeBlog={removeBlog} user={user}/>
         )}
       </div>
     )
