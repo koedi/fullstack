@@ -46,8 +46,7 @@ const App = () => {
       const allBlogs = await blogService.getAll()
       setBlogs(allBlogs)
       showNotification('OK', `A new blog "${blogObject.title}" by ${blogObject.author} added`)
-    } catch (exception) {
-    }
+    } catch (exception) { /**/ }
   }
 
   const addLike = async (id, blogObject) => {
@@ -56,6 +55,7 @@ const App = () => {
       const updatedBlogList = blogs.map((blog) => (blog.id !== id ? blog : blogObject))
       setBlogs(updatedBlogList.sort((a, b) => b.likes - a.likes))
     } catch (exception) {
+      console.log(exception)
     }
   }
 
@@ -141,7 +141,7 @@ const App = () => {
         </div>
 
         {blogs.map(blog =>
-          <Blog key={blog.id} blog={blog} addLike={addLike} removeBlog={removeBlog} user={user}/>
+          <Blog key={blog.id} blog={blog} addLike={addLike} removeBlog={removeBlog} user={user} />
         )}
       </div>
     )
