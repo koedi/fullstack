@@ -3,15 +3,16 @@ import '@testing-library/jest-dom/extend-expect'
 import { render, fireEvent } from '@testing-library/react'
 import Blog from './Blog'
 
-
 const { test, expect, describe, beforeEach } = require('@jest/globals')
+
+const mockHandler = jest.fn()
 
 let user
 let blog
 let component
 
 
-beforeEach( () => {
+beforeEach(() => {
   user = {
     username: 'puavo',
     name: 'Paavo Väyrynen',
@@ -26,7 +27,7 @@ beforeEach( () => {
   }
 
   component = render(
-    <Blog blog={blog} user={user}>
+    <Blog blog={blog} user={user} addLike={mockHandler}>
       <div className='testDiv' />
     </Blog>
   )
@@ -36,7 +37,7 @@ beforeEach( () => {
 
 test('hello world', () => {
   const component = render(
-    <Blog blog={blog} user={user}/>
+    <Blog blog={blog} user={user} />
   )
 
   expect(component.container).toHaveTextContent(
@@ -63,4 +64,18 @@ describe('testing "show more" button functionality', () => {
 
     //console.debug()
   })
+
+  describe('"like" button functionlity', () => {
+    test('pushing like twice', () => {
+      const likeButton = component.getByText('like')
+      fireEvent.click(likeButton)
+      fireEvent.click(likeButton)
+      expect(mockHandler.mock.calls).toHaveLength(2)
+    })
+  })
+
+
+
+
+
 })
