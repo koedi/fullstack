@@ -7,7 +7,8 @@
     "start": "NODE_ENV=production node index.js",
     "dev": "NODE_ENV=development nodemon index.js",
     "lint": "eslint .",
-    "test": "NODE_ENV=test jest --verbose"
+    "test": "NODE_ENV=test jest --verbose",
+    "start:test": "cross-env NODE_ENV=test node index.js"
   },
   "author": "Kari Pietikäinen",
   "license": "MIT",
@@ -23,6 +24,7 @@
     "mongoose-unique-validator": "^2.0.3"
   },
   "devDependencies": {
+    "cypress": "^9.2.1",
     "eslint": "^7.32.0",
     "jest": "^27.0.6",
     "nodemon": "^2.0.12",
