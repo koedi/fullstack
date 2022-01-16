@@ -65,6 +65,7 @@ const App = () => {
     try {
       await blogService.remove(id)
       setBlogs(blogs.filter(blog => blog.id !== id))
+      showNotification('OK', 'blog removed')
     } catch (error) {
       console.log(error)
     }

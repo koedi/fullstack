@@ -37,7 +37,7 @@ const Blog = ({ blog, addLike, removeBlog, user }) => {
         <button onClick={() => setShowMore(false)}>show less</button><br />
 
         <div style={showWhenUserAdded}>
-          <button className="removeButton" onClick={handleRemove}>remove</button>
+          <button id='remove-button' className="removeButton" onClick={handleRemove}>remove</button>
         </div>
       </div>
     </div>

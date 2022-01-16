@@ -1,6 +1,12 @@
 describe('Blog app', function () {
   beforeEach(function () {
     cy.request('POST', 'http://localhost:3003/api/testing/reset')
+    const user = {
+      name: 'test',
+      username: 'test',
+      password: 'test'
+    }
+    cy.request('POST', 'http://localhost:3003/api/users/', user)
     cy.visit('http://localhost:3000')
   })
 
@@ -14,16 +20,16 @@ describe('Blog app', function () {
 
   describe('Login', function () {
     it('succeeds with correct credentials', function () {
-      cy.get('#username').type('inkku69')
-      cy.get('#password').type('salasana')
+      cy.get('#username').type('test')
+      cy.get('#password').type('test')
       cy.get('#login-button').click()
-      cy.contains('Iines Ankka logged in')
+      cy.contains('test logged in')
     })
 
 
     it('fail with wrong credentials', function () {
-      cy.get('#username').type('iines')
-      cy.get('#password').type('salasana')
+      cy.get('#username').type('testi')
+      cy.get('#password').type('test')
       cy.get('#login-button').click()
       cy.contains('Wrong username or password')
     })
@@ -32,8 +38,8 @@ describe('Blog app', function () {
 
   describe('When logged in', function () {
     beforeEach(function () {
-      cy.get('#username').type('inkku69')
-      cy.get('#password').type('salasana')
+      cy.get('#username').type('test')
+      cy.get('#password').type('test')
       cy.get('#login-button').click()
     })
 
@@ -60,9 +66,22 @@ describe('Blog app', function () {
       cy.get('#more-button').click()
       cy.get('#like-button').click()
       cy.contains('likes: 1')
-
-
     })
+
+    it('Created blog can be removed', function () {
+      cy.get('#newBlog-button').click()
+      cy.get('#blog-title').type('Aku on paras')
+      cy.get('#blog-author').type('Iines Ankka')
+      cy.get('#blog-url').type('https://aku.ankka.com')
+      cy.get('#createBlog-button').click()
+      cy.get('#more-button').click()
+
+      cy.get('#remove-button').click()
+      cy.contains('blog removed')
+    })
+
+
+
   })
 
 
