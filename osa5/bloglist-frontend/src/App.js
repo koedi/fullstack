@@ -88,7 +88,7 @@ const App = () => {
       setUsername('')
       setPassword('')
     } catch (exception) {
-      showNotification('NOK', 'Wrond username or password')
+      showNotification('NOK', 'Wrong username or password')
       setUsername('')
       setPassword('')
     }
@@ -107,10 +107,10 @@ const App = () => {
       <h2>log in to application</h2>
       <form onSubmit={handleLogin}>
         <div>
-          username <input type="text" value={username} name="Username" onChange={({ target }) => setUsername(target.value)} />
+          username <input id='username' type="text" value={username} name="Username" onChange={({ target }) => setUsername(target.value)} />
         </div>
         <div>
-          password <input type="password" value={password} name="Password" onChange={({ target }) => setPassword(target.value)} />
+          password <input id='password' type="password" value={password} name="Password" onChange={({ target }) => setPassword(target.value)} />
         </div>
         <div>
           <button type="submit">login</button>
