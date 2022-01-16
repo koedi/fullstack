@@ -1,6 +1,6 @@
 describe('Blog app', function () {
   beforeEach(function () {
-    //cy.request('POST', 'http://localhost:3003/api/testing/reset')
+    cy.request('POST', 'http://localhost:3003/api/testing/reset')
     cy.visit('http://localhost:3000')
   })
 
@@ -49,9 +49,21 @@ describe('Blog app', function () {
       cy.contains('Iines Ankka')
       cy.contains('https://aku.ankka.com')
     })
+
+    it('A blog can be liked', function () {
+      cy.get('#newBlog-button').click()
+      cy.get('#blog-title').type('Aku on paras')
+      cy.get('#blog-author').type('Iines Ankka')
+      cy.get('#blog-url').type('https://aku.ankka.com')
+      cy.get('#createBlog-button').click()
+
+      cy.get('#more-button').click()
+      cy.get('#like-button').click()
+      cy.contains('likes: 1')
+
+
+    })
   })
-
-
 
 
 })
