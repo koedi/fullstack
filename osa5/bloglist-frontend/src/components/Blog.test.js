@@ -61,8 +61,6 @@ describe('testing "show more" button functionality', () => {
     fireEvent.click(button)
     const div = component.container.querySelector('.togglableContent')
     expect(div).not.toHaveStyle('display: none')
-
-    //console.debug()
   })
 
   describe('"like" button functionlity', () => {

@@ -12,12 +12,13 @@
     "web-vitals": "^0.2.4"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "BROWSER=none react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "eslint .",
-    "dev": "NODE_ENV=development nodemon index.js"
+    "dev": "BROWSER=none NODE_ENV=development nodemon index.js",
+    "cypress:open": "cypress open"
   },
   "eslintConfig": {
     "extends": [
@@ -27,20 +28,26 @@
   },
   "browserslist": {
     "production": [
-      ">0.2%",
+      ">0.3%",
+      "not ie 11",
       "not dead",
       "not op_mini all"
     ],
     "development": [
       "last 1 chrome version",
       "last 1 firefox version",
-      "last 1 safari version"
+      "last 1 safari version",
+      ">0.3%",
+      "not ie 11",
+      "not dead",
+      "not op_mini all"
     ]
   },
   "proxy": "http://localhost:3003",
   "devDependencies": {
     "@testing-library/jest-dom": "^5.16.1",
     "@testing-library/react": "^11.2.7",
+    "cypress": "^9.2.1",
     "eslint-plugin-react": "^7.26.1",
     "nodemon": "^2.0.15"
   }
