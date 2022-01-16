@@ -123,7 +123,6 @@ const App = () => {
     const hideWhenVisible = { display: blogFormVisible ? 'none' : '' }
     const showWhenVisible = { display: blogFormVisible ? '' : 'none' }
 
-
     return (
       <div>
         <p> {user.name} logged in

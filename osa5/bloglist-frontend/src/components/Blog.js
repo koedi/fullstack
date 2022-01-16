@@ -10,9 +10,8 @@ const Blog = ({ blog, addLike, removeBlog, user }) => {
   const showWhenVisible = { display: showMore ? '' : 'none' }
   const showWhenUserAdded = { display: user.id !== blog.user?.id ? '' : 'none' }
 
-
   const handleAddLike = () => {
-    const updatedBlog = { ...blog, likes: blog.likes + 1, user: user.id }
+    const updatedBlog = { ...blog, likes: blog.likes + 1 , user: blog.user?.id }
     console.log(updatedBlog)
     addLike(blog.id, updatedBlog)
   }
@@ -26,19 +25,20 @@ const Blog = ({ blog, addLike, removeBlog, user }) => {
 
   return (
     <div className="blogStyle">
-      <div style={hideWhenVisible}>
+      <div style={hideWhenVisible}  >
         {blog.title} {blog.author} <button onClick={() => setShowMore(true)}>show more</button>
       </div>
-      <div style={showWhenVisible}>
-        {blog.title} {blog.author} <button onClick={() => setShowMore(false)}>show less</button><br />
+
+      <div style={showWhenVisible} className='togglableContent'>
+        {blog.title} <br />
+        {blog.author} <br />
         {blog.url}<br />
         likes: {blog.likes} <button onClick={handleAddLike}>like</button><br />
+        <button onClick={() => setShowMore(false)}>show less</button><br />
 
         <div style={showWhenUserAdded}>
           <button className="removeButton" onClick={handleRemove}>remove</button>
         </div>
-
-
       </div>
     </div>
   )
