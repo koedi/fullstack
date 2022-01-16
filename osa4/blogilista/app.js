@@ -31,6 +31,7 @@ app.use(middleware.tokenExtractor)
 app.use(middleware.requestLogger)
 
 app.post('/api/blogs', middleware.userExtractor)
+app.put('/api/:id', middleware.userExtractor)
 app.delete('/api/blogs/:id', middleware.userExtractor)
 app.use('/api/blogs', blogsRouter)
 app.use('/api/users', usersRouter)
