@@ -113,7 +113,7 @@ const App = () => {
           password <input id='password' type="password" value={password} name="Password" onChange={({ target }) => setPassword(target.value)} />
         </div>
         <div>
-          <button type="submit">login</button>
+          <button id='login-button' type="submit">login</button>
         </div>
       </form>
     </div>
@@ -129,7 +129,7 @@ const App = () => {
           <button type="submit" onClick={logoutUser}>logout</button>
         </p>
         <div style={hideWhenVisible}>
-          <button onClick={() => setBlogFormVisible(true)}>create new blog</button>
+          <button id='newBlog-button' onClick={() => setBlogFormVisible(true)}>create new blog</button>
         </div>
 
         <div style={showWhenVisible}>
